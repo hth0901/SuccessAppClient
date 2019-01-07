@@ -50,8 +50,24 @@ export class LoginPage {
       // alert.present();
       let loginResult: boolean = data["loginSuccess"];
       let errMessage: string = data["errMessage"];
-      //console.log(JSON.stringify(data));
-      console.log(typeof(loginResult));
+      if (loginResult == false){
+        let alert = this._alertController.create({
+          title: "Login Failed!!",
+          subTitle: errMessage,
+          buttons: ['OK']
+        });
+        alert.present();
+      }
+      else {
+        let user: object = data["userLogin"];
+        console.log(user);
+        let alert = this._alertController.create({
+          title: "Login successfully!!",
+          //subTitle: errMessage,
+          buttons: ['OK']
+        });
+        alert.present();
+      }
     }, (error) => {
       console.log("ERROR");
       loading.dismiss();
