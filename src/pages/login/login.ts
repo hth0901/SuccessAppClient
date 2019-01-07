@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HomePage } from '../home/home';
 
 /**
  * Generated class for the LoginPage page.
@@ -41,13 +42,6 @@ export class LoginPage {
     this._httpClient.post(apiUrl, JSON.stringify(objUser), this._configOptions).subscribe((data) => {
       // console.log(data);
       loading.dismiss();
-      // let mess = data.toString();
-      // let alert = this._alertController.create({
-      //   title: "Congratulations!!",
-      //   subTitle: mess,
-      //   buttons: ['OK']
-      // });
-      // alert.present();
       let loginResult: boolean = data["loginSuccess"];
       let errMessage: string = data["errMessage"];
       if (loginResult == false){
@@ -61,12 +55,13 @@ export class LoginPage {
       else {
         let user: object = data["userLogin"];
         console.log(user);
-        let alert = this._alertController.create({
-          title: "Login successfully!!",
-          //subTitle: errMessage,
-          buttons: ['OK']
-        });
-        alert.present();
+        // let alert = this._alertController.create({
+        //   title: "Login successfully!!",
+        //   //subTitle: errMessage,
+        //   buttons: ['OK']
+        // });
+        // alert.present();
+        this.gotoHomePage(user);
       }
     }, (error) => {
       console.log("ERROR");
@@ -107,6 +102,12 @@ export class LoginPage {
   btnCancelClick() {
     this.username = "";
     this.password = "";
+  }
+
+  gotoHomePage(pageData: object) {
+    //this.navCtrl.push(HomePage);
+    let dataTest = JSON.stringify(pageData);
+    this.navCtrl.setRoot(HomePage, {"data": pageData});
   }
 
 }
